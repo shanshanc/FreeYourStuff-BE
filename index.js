@@ -19,7 +19,7 @@ const options = {
 mongoose.connect(process.env.DATABASE, options)
 
 app
-  .use(logger())
+  //.use(logger())
   .use(cors())
   .use(bodyparser())
   .use(errorHandler)
