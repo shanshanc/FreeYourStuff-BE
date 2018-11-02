@@ -1,4 +1,5 @@
 require('dotenv').config()
+const http = require('http')
 
 const Koa = require('koa')
 const app = new Koa()
@@ -15,7 +16,14 @@ const options = {
   useNewUrlParser: true
 }
 
-mongoose.connect(process.env.DATABASE, options)
+mongoose.connect(
+  process.env.DATABASE,
+  options
+)
+
+setInterval(() => {
+  http.get('http://fys-demo.herokuapp.com/getStuff')
+}, 300000)
 
 app
   .use(cors())
