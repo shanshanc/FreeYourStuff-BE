@@ -21,9 +21,6 @@ mongoose.connect(
   options
 )
 
-setInterval(() => {
-  http.get('http://fys-demo.herokuapp.com/getStuff')
-}, 300000)
 
 app
   .use(cors())
