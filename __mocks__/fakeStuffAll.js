@@ -99,3 +99,25 @@ module.exports.checkID = [
     picture: 'https://example.com/pic2'
   }
 ];
+
+const ctx = {
+  request: {
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    body: {
+      picture: 'https://example.com/pic1/newlink',
+      time: '2018-08-01T10:51:57.108Z',
+      tags: ['tag1', 'tag2']
+    }
+  }
+}
+
+const newId = {
+  params: {
+    id: 'abcd'
+  }
+};
+
+module.exports.newStuff = Object.assign(newId, ctx);
