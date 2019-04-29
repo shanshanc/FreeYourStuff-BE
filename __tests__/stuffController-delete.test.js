@@ -27,8 +27,9 @@ describe('controller: delete', () => {
         picture: 'https://example.com/pic2'
       }
     ];
-    Stuff.remove.mockImplementation(() => fakeDB);
+    Stuff.prototype.remove.mockImplementation(() => {});
     await stuffControllers.delete(ctx, () => { });
+    
     expect(ctx.status === 204);
     expect(ctx.status).toEqual(204);
   });

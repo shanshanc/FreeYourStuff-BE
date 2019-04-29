@@ -9,8 +9,11 @@ module.exports.getAll = async (ctx, next) => {
 
 module.exports.create = async (ctx, next) => {
   let stuff = await new Stuff(ctx.request.body)
-  stuff.save()
-  ctx.body = stuff
+  // console.log('stuff in controller: ', stuff);
+  const result = await stuff.save();
+  console.log(result);
+  
+  ctx.body = result;
   ctx.status = 200
   await next()
 }
