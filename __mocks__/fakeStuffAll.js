@@ -34,3 +34,68 @@ module.exports.fakeStuff = [{
 }
 ]
 
+module.exports.dataWithoutIDs = {
+  'tags': [
+    'motor vehicle',
+    'moped',
+    'scooter'
+  ],
+  'picture': 'https://res.cloudinary.com/dh9xnvxbz/image/upload/c_fill,h_480,w_820/v1533120579/zrjn7dcll8t1wqazi71m.jpg',
+  'location': {
+    'lat': 41.3968884,
+    'lng': 2.1989088
+  },
+  'address': 'Carrer de Ramon Turró, 148, 08005 Barcelona, Spain',
+};
+
+module.exports.photoArray = [
+  { picture: 'https://example.com/pic1' },
+  { picture: 'https://example.com/pic2' }
+];
+
+module.exports.postRequest = {
+  request: {
+    method: 'POST',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    body: this.dataWithoutIDs
+  }
+};
+
+module.exports.getRequest = {
+  request: {
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    }
+  }
+};
+
+module.exports.getRequestWithExistingID = {
+  request: {
+    method: 'GET',
+    header: {
+      'Content-Type': 'application/json'
+    },
+    body: {
+      picture: 'https://example.com/pic1/newlink',
+      time: '2018-08-01T10:51:57.108Z',
+      tags: ['tag1', 'tag2']
+    }
+  },
+  params: {
+    id: '1234'
+  }
+};
+
+module.exports.checkID = [
+  {
+    _id: '1234',
+    picture: 'https://example.com/pic1'
+  },
+  {
+    _id: '5678',
+    picture: 'https://example.com/pic2'
+  }
+];
