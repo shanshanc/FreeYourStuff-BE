@@ -1,35 +1,42 @@
-const stuffControllers = require('../controllers/stuffControllers')
+const Stuff = require('../db/stuffModel');
+const stuffControllers = require('../controllers/stuffControllers');
 
-const Stuff = require('../db/stuffModel')
+jest.mock('../db/stuffModel');
 
-test('testing critical functionality', async () => {
-  // console.log('testing')
-  // mock ../models/User.js
-  // 1. Setup
-  //    Create mock req, res
-  //    const res = { status: jest.fn(), send: jest.fn() }
-  //    const fakeUser = { id: 4 };
-  //    User.find = jest.fn(() => fakeUser);
-  //    const expected = [{ _id: fakeUser._id }, fakeUser]
-  // 2. Action
-  //    const result = controller.me(req, res)
-  // 3. Assertions
-  //    expect(res.status.mock.calls).toEqual([[200]]);
-  //    expect(result.send).toHaveBeenCalledWith(fakeUser);
-  //    expect(User.find.mock.calls).toEqual(expected);
+describe('controller: getAll', () => {
+  test('should respond as expected', async () => {
+    const ctx = {
+      request: {
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+        }
+      }
+    };
+    await stuffControllers.getAll(ctx, () => {});
+    expect(ctx.status === 200);
+  });
 
-  // Setup
-  const req = {}
-  const res = { status: jest.fn(), send: jest.fn() }
-  const fakeStuff = {picture: 'https://example.com'}
-  Stuff.find = await jest.fn(() => fakeStuff)
-  const expectedResult = fakeStuff
+  test('should respond with correct content', async () => {
+    const ctx = {
+      request: {
+        method: 'GET',
+        header: {
+          'Content-Type': 'application/json'
+        }
+      },
+      body: {}
+    };
 
-  // // Action
-  const result = await Stuff.find(req, res)
+    Stuff.find.mockImplementation(() => [
+      {picture: 'https://example.com/pic1'},
+      {picture: 'https://example.com/pic2'}
+    ]);
 
-  // // Assertion
-  expect(result).toEqual(expectedResult)
-
-}
-)
+    await stuffControllers.getAll(ctx, () => {});
+    expect(ctx.body).toEqual([
+      {picture: 'https://example.com/pic1'},
+      {picture: 'https://example.com/pic2'}
+    ]);
+  });
+});
