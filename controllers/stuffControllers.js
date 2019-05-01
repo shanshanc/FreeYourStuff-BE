@@ -1,4 +1,4 @@
-const Stuff = require('../db/stuffModel')
+const Stuff = require('../db/stuffModel');
 
 module.exports.getAll = async (ctx, next) => {
   let stuffs = await Stuff.find()
@@ -8,19 +8,25 @@ module.exports.getAll = async (ctx, next) => {
 }
 
 module.exports.create = async (ctx, next) => {
-  let stuff = await new Stuff(ctx.request.body)
-  // console.log('stuff in controller: ', stuff);
-  const result = await stuff.save();
-  console.log(result);
-  
-  ctx.body = result;
-  ctx.status = 200
-  await next()
-}
+  try {
+    const stuff = await new Stuff(ctx.request.body);
+    const result = await stuff.save();
+    ctx.body = result;
+    ctx.status = 200;
+    await next();
+  } catch (err) {
+    if (err.name === 'ValidationError') {
+      ctx.status = 406;
+    } else {
+      console.error(err);
+      ctx.status = 500;
+    };
+  }
+};
 
 module.exports.update = async (ctx, next) => {
-  let _id = ctx.params.id
-  let stuff = ctx.request.body
+  let _id = ctx.params.id;
+  let stuff = ctx.request.body;
   await Stuff.findOneAndUpdate(
     {_id},
     {$set:
@@ -30,9 +36,10 @@ module.exports.update = async (ctx, next) => {
         tags: stuff.tags
       }
     },
-    {new: true})
-  ctx.status = 204
-  await next()
+    {new: true});
+  ctx.body = stuff;
+  ctx.status = 204;
+  await next();
 }
 
 module.exports.delete = async (ctx, next) => {
